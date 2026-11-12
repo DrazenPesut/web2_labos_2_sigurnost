@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "tsc",
+    "build": "tsc && copyfiles -u 1 \"src/views/**/*.ejs\" dist",
     "start": "node dist/index.js"
   },
   "keywords": [],
@@ -22,6 +22,7 @@
     "@types/express": "^5.0.6",
     "@types/node": "^26.6.6",
     "@types/pg": "^8.23.1",
+    "copyfiles": "^2.4.1",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"
   },
