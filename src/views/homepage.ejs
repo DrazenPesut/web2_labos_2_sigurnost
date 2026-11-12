@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title> Drugi projekt: Sigurnost </title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+                background: #f5f5f5;
+                color: #222;
+                margin: 0;
+            }
+
+            .title {
+                text-align: center;
+                font-size: 32px;
+                margin: 0;
+                padding: 30px 20px;
+            }
+
+            .container {
+                max-width: 1000px;
+                margin: 0 auto;
+                padding: 0 20px 40px;
+            }
+
+            .section {
+                background: #fff;
+                border: 2px solid #333;
+                border-radius: 8px;
+                padding: 24px;
+                margin-bottom: 24px;
+            }
+
+            .section h2 {
+                margin-top: 0;
+                margin-bottom: 16px;
+                font-size: 22px;
+                border-bottom: 1px solid #ddd;
+                padding-bottom: 10px;
+            }
+
+            .description {
+                background: #f0f4f8;
+                border-left: 4px solid #333;
+                border-radius: 4px;
+                padding: 12px 16px;
+                margin: 0 0 20px;
+                font-size: 14px;
+                line-height: 1.6;
+                color: #333;
+            }
+
+            .description code {
+                background: #e2e8ef;
+                padding: 2px 6px;
+                border-radius: 4px;
+                font-family: Consolas, Menlo, monospace;
+                font-size: 13px;
+            }
+
+            .toggle-row {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-bottom: 16px;
+                font-size: 15px;
+            }
+
+            .toggle-row input {
+                width: 18px;
+                height: 18px;
+            }
+
+            .form-row {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                margin-bottom: 12px;
+            }
+
+            input[type="text"],
+            input[type="password"] {
+                flex: 1;
+                min-width: 180px;
+                padding: 10px 12px;
+                font-size: 15px;
+                font-family: inherit;
+                border: 1px solid #bbb;
+                border-radius: 6px;
+            }
+
+            input[type="text"]:focus,
+            input[type="password"]:focus {
+                outline: none;
+                border-color: #333;
+            }
+
+            button {
+                padding: 10px 20px;
+                font-size: 15px;
+                font-family: inherit;
+                background: #222;
+                color: #fff;
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+            }
+
+            button:hover {
+                background: #444;
+            }
+
+            .hint {
+                font-size: 13px;
+                color: #666;
+                margin: 4px 0 16px;
+            }
+
+            .hint code {
+                background: #eee;
+                padding: 2px 6px;
+                border-radius: 4px;
+                font-family: Consolas, Menlo, monospace;
+            }
+
+            pre {
+                background: #1e1e1e;
+                color: #d4d4d4;
+                font-family: Consolas, Menlo, monospace;
+                font-size: 13px;
+                padding: 14px;
+                border-radius: 6px;
+                overflow-x: auto;
+                margin: 10px 0 0;
+            }
+
+            pre:empty {
+                display: none;
+            }
+
+            button:disabled {
+                background: #999;
+                cursor: not-allowed;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 class="title"> Drugi projekt </h1>
+
+        <div class="container">
+            <div class="section">
+                <h2> 1. SQL Umetanje — Tautologija </h2>
+
+                <p class="description"> Upute: Ovo je jednostavan primjer SQL ubacivanja, preciznije tautologije.
+                    Kad je ranjivost isključena, korisnik može upisati svoje podatke, odnosno email i lozinku te pregledati svoje narudžbe.
+                    Kad je ranjivost uključena, upisom poruke za email <code>' OR '1'='1' --</code> događa se SQL ubacivanje.
+                    Oblik SQL upita i rezultat upita vidljivi su u svakom slučaju.
+                </p>
+
+                <label class="toggle-row">
+                    <input type="checkbox" id="vulnerable">
+                    Ranjivost uključena
+                </label>
+
+                <div class="form-row">
+                    <input type="text" id="email" placeholder="Email">
+                    <input type="password" id="password" placeholder="Lozinka">
+                    <button id="first-btn">Pregled narudžbi</button>
+                </div>
+
+                <pre id="sqliQuery"></pre>
+                <pre id="sqliResult"></pre>
+            </div>
+
+            <div class="section">
+                <h2> 2. Loša autentifikacija </h2>
+
+                <p class="description"> Upute: Ako je ranjivost uključena, napadač može "brute force" napadom pokušati pogoditi email i lozinku s neograničenim brojem pokušaja.
+                    U slučaju pogađanja email adrese, sustav daje informaciju kako je pogrešna lozinka. Ako je ranjivost isključena, nakon 3 neuspjela pokušaja sustav će zabraniti pokušaje prijave na 5 sekundi.
+                    Također, u slučaju pogađanja email adrese, sustav to neće javiti napadaču nego će ispisati kako su neispravni podaci za prijavu.
+                </p>
+
+                <label class="toggle-row">
+                    <input type="checkbox" id="bruteVulnerable">
+                    Ranjivost uključena
+                </label>
+
+                <div class="form-row">
+                    <input type="text" id="enumEmail" placeholder="Email" value="nepostoji@example.com">
+                    <input type="password" id="enumPassword" placeholder="Lozinka" value="bilokoja123">
+                    <button id="enum-btn">Prijava</button>
+                </div>
+                <pre id="enumLog"></pre>
+        </div>
+        <script async defer>
+            //* Dohvat narudžbi za SQL umetanje
+            document.getElementById('first-btn').addEventListener('click', async () => {
+                const res = await fetch('/orders', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: document.getElementById('email').value,
+                        password: document.getElementById('password').value,
+                        vulnerable: document.getElementById('vulnerable').checked,
+                    }),
+                });
+                const data = await res.json();
+                document.getElementById('sqliQuery').textContent = data.query ?? '';
+                document.getElementById('sqliResult').textContent = JSON.stringify(data, null, 2);
+            });
+
+            //* Prijava
+            const enumBtn = document.getElementById('enum-btn');
+
+            enumBtn.addEventListener('click', async () => {
+                const res = await fetch('/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: document.getElementById('enumEmail').value,
+                        password: document.getElementById('enumPassword').value,
+                        vulnerable: document.getElementById('bruteVulnerable').checked,
+                    }),
+                });
+                const data = await res.json();
+                document.getElementById('enumLog').textContent = data.message;
+
+                if (res.status === 429) {
+                    enumBtn.disabled = true;
+                    setTimeout(() => { enumBtn.disabled = false; }, 5000);
+                }
+            });
+        </script>
+    </body>
+</html>
