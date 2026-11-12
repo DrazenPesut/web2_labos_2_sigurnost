@@ -1,8 +1,7 @@
 import express, { type Request, type Response } from 'express';
 import path from 'path'
 import { fileURLToPath } from 'url';
-import { db_connection, db_query } from './db/index.js';
-import { fill_database } from './db/commands.js';
+import { db_query } from './db/index.js';
 
 const app = express();
 const PORT = 8080;
